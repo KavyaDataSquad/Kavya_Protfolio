@@ -52,8 +52,8 @@ function grouped(rows, key, valueKey) {
 function chartBaseOptions() {
   return {
     responsive:true, maintainAspectRatio:false,
-    plugins:{legend:{labels:{color:"#a1aec2",usePointStyle:true,boxWidth:8,font:{family:"Manrope",size:11}}},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label || ctx.label}: ${money(ctx.parsed.y ?? ctx.parsed)}`}}},
-    scales:{x:{ticks:{color:"#a1aec2",maxRotation:0,autoSkip:true},grid:{color:"rgba(177,197,224,.07)"}},y:{ticks:{color:"#a1aec2",callback:value=>value>=1000000?(value/1000000).toFixed(1)+"M":value>=1000?(value/1000).toFixed(0)+"k":value},grid:{color:"rgba(177,197,224,.09)"}}}
+    plugins:{legend:{labels:{color:"#a1aec2",usePointStyle:true,boxWidth:8,font:{family:"Manrope",size:9}}},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label || ctx.label}: ${money(ctx.parsed.y ?? ctx.parsed)}`}}},
+    scales:{x:{ticks:{color:"#a1aec2",maxRotation:0,autoSkip:true,font:{size:9}},grid:{color:"rgba(177,197,224,.07)"}},y:{ticks:{color:"#a1aec2",callback:value=>value>=1000000?(value/1000000).toFixed(1)+"M":value>=1000?(value/1000).toFixed(0)+"k":value},grid:{color:"rgba(177,197,224,.09)"}}}
   };
 }
 function createCharts() {
@@ -64,7 +64,7 @@ function createCharts() {
   const base = chartBaseOptions();
   monthlyChart = new Chart(el("monthlyChart"), {type:"line",data:{labels:[],datasets:[{label:"Sales",data:[],borderColor:palette[0],backgroundColor:"rgba(100,230,208,.12)",fill:true,tension:.32,pointRadius:2}]},options:{...base,scales:{...base.scales,y:{...base.scales.y,beginAtZero:true}}}});
   regionChart = new Chart(el("regionChart"), {type:"bar",data:{labels:[],datasets:[{label:"Sales",data:[],backgroundColor:palette,borderRadius:5}]},options:{...base,indexAxis:"y",plugins:{...base.plugins,legend:{display:false}},scales:{x:{...base.scales.y,beginAtZero:true},y:{...base.scales.x,grid:{display:false}}}}});
-  categoryChart = new Chart(el("categoryChart"), {type:"doughnut",data:{labels:[],datasets:[{label:"Profit",data:[],backgroundColor:palette,borderWidth:0,hoverOffset:7}]},options:{responsive:true,maintainAspectRatio:false,cutout:"65%",plugins:{legend:{position:"bottom",labels:{color:"#a1aec2",usePointStyle:true,boxWidth:8,padding:16,font:{family:"Manrope",size:10}}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${money(ctx.parsed)}`}}}}});
+  categoryChart = new Chart(el("categoryChart"), {type:"doughnut",data:{labels:[],datasets:[{label:"Profit",data:[],backgroundColor:palette,borderWidth:0,hoverOffset:7}]},options:{responsive:true,maintainAspectRatio:false,cutout:"68%",plugins:{legend:{position:"bottom",labels:{color:"#a1aec2",usePointStyle:true,boxWidth:8,padding:16,font:{family:"Manrope",size:9}}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${money(ctx.parsed)}`}}}}});
 }
 function updateDashboard() {
   const rows = filteredRecords();
