@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Analytics Dashboard | Kavya Data</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dashboard-page">
+  <header class="site-header">
+    <a class="brand" href="index.html">KAVYA<span>DATA</span></a>
+    <nav><a href="index.html#projects">Projects</a><a href="#engineering-notes">Engineering notes</a><a href="#sql-notes">SQL notes</a></nav>
+  </header>
+  <main class="dash-main">
+    <div class="dash-heading">
+      <div><p class="eyebrow">PROJECT 01 · BUSINESS INTELLIGENCE</p><h1>Sales Analytics <span>Dashboard</span></h1><p class="dash-subtitle">An interactive browser-based demo with filters, KPI calculations and charts.</p></div>
+      <a class="btn secondary" href="index.html">← Back to portfolio</a>
+    </div>
+    <div class="demo-notice"><span class="status-dot"></span><div><strong>Interactive demo dataset</strong><p>Illustrative sample sales data is embedded in this project. It is not MetLife, Verizon, or any employer's confidential data. Filters and charts recalculate in your browser.</p></div></div>
+
+    <section class="filters" aria-label="Dashboard filters">
+      <label>Year<select id="yearFilter"><option value="all">All years</option></select></label>
+      <label>Region<select id="regionFilter"><option value="all">All regions</option></select></label>
+      <label>Category<select id="categoryFilter"><option value="all">All categories</option></select></label>
+      <button id="resetFilters" class="btn secondary reset-btn" type="button">Reset filters</button>
+    </section>
+
+    <section class="kpi-grid">
+      <article class="kpi-card"><div class="kpi-label">TOTAL SALES</div><div class="kpi-value" id="salesKpi">—</div><div class="kpi-note">Sum of filtered orders</div></article>
+      <article class="kpi-card"><div class="kpi-label">TOTAL PROFIT</div><div class="kpi-value" id="profitKpi">—</div><div class="kpi-note">Sales minus costs in demo data</div></article>
+      <article class="kpi-card"><div class="kpi-label">PROFIT MARGIN</div><div class="kpi-value" id="marginKpi">—</div><div class="kpi-note">Profit ÷ sales</div></article>
+      <article class="kpi-card"><div class="kpi-label">ORDERS</div><div class="kpi-value" id="ordersKpi">—</div><div class="kpi-note">Distinct sample order IDs</div></article>
+    </section>
+
+    <section class="chart-grid">
+      <article class="chart-card chart-wide"><div class="chart-head"><div><h2>Monthly sales trend</h2><p>Sales by month for the current selection</p></div><span class="chart-mark">01</span></div><div class="chart-wrap"><canvas id="monthlyChart" aria-label="Monthly sales trend chart"></canvas></div></article>
+      <article class="chart-card"><div class="chart-head"><div><h2>Sales by region</h2><p>Compare regional performance</p></div><span class="chart-mark">02</span></div><div class="chart-wrap"><canvas id="regionChart" aria-label="Sales by region chart"></canvas></div></article>
+      <article class="chart-card"><div class="chart-head"><div><h2>Profit by category</h2><p>Which category contributes profit?</p></div><span class="chart-mark">03</span></div><div class="chart-wrap"><canvas id="categoryChart" aria-label="Profit by category chart"></canvas></div></article>
+    </section>
+
+    <section class="table-card"><div class="chart-head"><div><h2>Filtered order details</h2><p>Sample rows matching the selected filters</p></div><span id="rowCount" class="tag">0 rows</span></div><div class="table-scroll"><table><thead><tr><th>Order date</th><th>Region</th><th>Category</th><th>Product</th><th>Sales</th><th>Profit</th></tr></thead><tbody id="ordersTable"></tbody></table></div></section>
+
+    <section id="engineering-notes" class="notes-section"><p class="eyebrow">NEXT PROJECT BLUEPRINT</p><h2>Data Engineering: pipeline to warehouse</h2><div class="architecture"><div><small>01 · INGEST</small><strong>CSV / API</strong><p>Read source data</p></div><b>→</b><div><small>02 · TRANSFORM</small><strong>Python / SQL</strong><p>Clean, validate, standardise</p></div><b>→</b><div><small>03 · STORE</small><strong>Lake / Warehouse</strong><p>Curated analytical tables</p></div><b>→</b><div><small>04 · SERVE</small><strong>BI Dashboard</strong><p>Metrics and insights</p></div></div><p class="note-text">This section documents a design pattern; the static GitHub Pages site does not run a scheduled backend pipeline. A real scheduled ETL workflow needs a runtime such as GitHub Actions, a cloud data platform, or another backend service.</p></section>
+
+    <section id="sql-notes" class="notes-section sql-notes"><p class="eyebrow">SQL PRACTICE</p><h2>Example: aggregate sales by region</h2><pre><code>SELECT
+    region,
+    SUM(sales_amount) AS total_sales,
+    SUM(profit_amount) AS total_profit
+FROM fact_sales
+GROUP BY region
+ORDER BY total_sales DESC;</code></pre><p class="note-text">This is an example query for a future warehouse model. The dashboard demo currently uses browser-side sample data, not a live SQL database.</p></section>
+  </main>
+  <footer><span>© 2026 Kavya · Interactive dashboard demo</span><span>Sample data · No confidential company data</span></footer>
+  <script src="sales-dashboard.js"></script>
+</body>
+</html>
