@@ -26,6 +26,9 @@ const num = n => new Intl.NumberFormat("en-IN").format(n);
 const el = id => document.getElementById(id);
 const palette = ["#64e6d0","#7c9cff","#ffb86b","#d69cff"];
 let monthlyChart, regionChart, categoryChart;
+// Clicking a chart element applies a cross-filter, similar to Power BI.
+// Clicking the same element again clears that chart's selection.
+let visualSelection = { month: null, region: null, category: null };
 
 function fillFilter(id, values) {
   const select = el(id);
@@ -39,10 +42,25 @@ fillFilter("yearFilter", [...new Set(records.map(r=>r.year))]);
 fillFilter("regionFilter", regions);
 fillFilter("categoryFilter", categories);
 
-function filteredRecords() {
+function filteredRecords(excludeVisualKey = null) {
   const year = el("yearFilter").value, region = el("regionFilter").value, category = el("categoryFilter").value;
-  return records.filter(r => (year === "all" || r.year === year) && (region === "all" || r.region === region) && (category === "all" || r.category === category));
+  return records.filter(r =>
+    (year === "all" || r.year === year) &&
+    (region === "all" || r.region === region) &&
+    (category === "all" || r.category === category) &&
+    (excludeVisualKey === "month" || !visualSelection.month || r.month === visualSelection.month) &&
+    (excludeVisualKey === "region" || !visualSelection.region || r.region === visualSelection.region) &&
+    (excludeVisualKey === "category" || !visualSelection.category || r.category === visualSelection.category)
+  );
 }
+function clearVisualSelection(key) {
+  visualSelection[key] = null;
+}
+function chartClickSelection(key, value) {
+  visualSelection[key] = visualSelection[key] === value ? null : value;
+  updateDashboard();
+}
+
 function sum(rows, key) { return rows.reduce((total, r) => total + r[key], 0); }
 function grouped(rows, key, valueKey) {
   const out = {};
@@ -62,24 +80,54 @@ function createCharts() {
     return;
   }
   const base = chartBaseOptions();
-  monthlyChart = new Chart(el("monthlyChart"), {type:"line",data:{labels:[],datasets:[{label:"Sales",data:[],borderColor:palette[0],backgroundColor:"rgba(100,230,208,.12)",fill:true,tension:.32,pointRadius:2}]},options:{...base,scales:{...base.scales,y:{...base.scales.y,beginAtZero:true}}}});
-  regionChart = new Chart(el("regionChart"), {type:"bar",data:{labels:[],datasets:[{label:"Sales",data:[],backgroundColor:palette,borderRadius:5}]},options:{...base,indexAxis:"y",plugins:{...base.plugins,legend:{display:false}},scales:{x:{...base.scales.y,beginAtZero:true},y:{...base.scales.x,grid:{display:false}}}}});
-  categoryChart = new Chart(el("categoryChart"), {type:"doughnut",data:{labels:[],datasets:[{label:"Profit",data:[],backgroundColor:palette,borderWidth:0,hoverOffset:7}]},options:{responsive:true,maintainAspectRatio:false,cutout:"68%",plugins:{legend:{position:"bottom",labels:{color:"#a1aec2",usePointStyle:true,boxWidth:8,padding:16,font:{family:"Manrope",size:9}}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${money(ctx.parsed)}`}}}}});
+  monthlyChart = new Chart(el("monthlyChart"), {type:"line",data:{labels:[],datasets:[{label:"Sales",data:[],borderColor:palette[0],backgroundColor:"rgba(100,230,208,.12)",fill:true,tension:.32,pointRadius:4,pointHoverRadius:7}]},options:{...base,scales:{...base.scales,y:{...base.scales.y,beginAtZero:true}},onClick:(event,elements,chart)=>{if(!elements.length)return;const idx=elements[0].index;const label=chart.data.labels[idx];const month=chart.$monthKeys?.[idx];if(month)chartClickSelection("month",month);}}});
+  regionChart = new Chart(el("regionChart"), {type:"bar",data:{labels:[],datasets:[{label:"Sales",data:[],backgroundColor:palette,borderRadius:5}]},options:{...base,indexAxis:"y",onClick:(event,elements,chart)=>{if(!elements.length)return;chartClickSelection("region",chart.data.labels[elements[0].index]);},plugins:{...base.plugins,legend:{display:false}},scales:{x:{...base.scales.y,beginAtZero:true},y:{...base.scales.x,grid:{display:false}}}}});
+  categoryChart = new Chart(el("categoryChart"), {type:"doughnut",data:{labels:[],datasets:[{label:"Profit",data:[],backgroundColor:palette,borderWidth:0,hoverOffset:7}]},options:{responsive:true,maintainAspectRatio:false,cutout:"68%",onClick:(event,elements,chart)=>{if(!elements.length)return;chartClickSelection("category",chart.data.labels[elements[0].index]);},plugins:{legend:{position:"bottom",labels:{color:"#a1aec2",usePointStyle:true,boxWidth:8,padding:16,font:{family:"Manrope",size:9}}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${money(ctx.parsed)}`}}}}});
 }
 function updateDashboard() {
   const rows = filteredRecords();
   const sales = sum(rows,"sales"), profit = sum(rows,"profit");
+  const selectionText = [];
+  if (visualSelection.month) selectionText.push("Month: " + visualSelection.month);
+  if (visualSelection.region) selectionText.push("Region: " + visualSelection.region);
+  if (visualSelection.category) selectionText.push("Category: " + visualSelection.category);
+  let selectionBadge = document.getElementById("visualSelectionBadge");
+  if (selectionBadge) {
+    selectionBadge.textContent = selectionText.length ? "Visual filters: " + selectionText.join(" · ") : "No visual selection";
+    selectionBadge.classList.toggle("active", selectionText.length > 0);
+  }
   el("salesKpi").textContent = money(sales);
   el("profitKpi").textContent = money(profit);
   el("marginKpi").textContent = sales ? (profit/sales*100).toFixed(1)+"%" : "0.0%";
   el("ordersKpi").textContent = num(new Set(rows.map(r=>r.id)).size);
-  const byMonth = grouped(rows,"month","sales");
+  const monthRows = filteredRecords("month");
+  const byMonth = grouped(monthRows,"month","sales");
   const monthKeys = Object.keys(byMonth).sort();
-  if (monthlyChart) { monthlyChart.data.labels = monthKeys.map(k=>new Date(k+"-15").toLocaleDateString("en-IN",{month:"short",year:"2-digit"})); monthlyChart.data.datasets[0].data = monthKeys.map(k=>byMonth[k]); monthlyChart.update(); }
-  const byRegion = grouped(rows,"region","sales");
-  if (regionChart) { regionChart.data.labels = Object.keys(byRegion); regionChart.data.datasets[0].data = Object.values(byRegion); regionChart.data.datasets[0].backgroundColor = Object.keys(byRegion).map((_,i)=>palette[i%palette.length]); regionChart.update(); }
-  const byCategory = grouped(rows,"category","profit");
-  if (categoryChart) { categoryChart.data.labels = Object.keys(byCategory); categoryChart.data.datasets[0].data = Object.values(byCategory); categoryChart.update(); }
+  if (monthlyChart) {
+    monthlyChart.data.labels = monthKeys.map(k=>new Date(k+"-15").toLocaleDateString("en-IN",{month:"short",year:"2-digit"}));
+    monthlyChart.$monthKeys = monthKeys;
+    monthlyChart.data.datasets[0].data = monthKeys.map(k=>byMonth[k]);
+    monthlyChart.data.datasets[0].pointBackgroundColor = monthKeys.map(k=>!visualSelection.month || visualSelection.month===k ? palette[0] : "#455368");
+    monthlyChart.update();
+  }
+  // Build each visual's categories from the other filters only, so selecting a
+  // segment remains visible and can be toggled off by clicking it again.
+  const regionRows = filteredRecords("region");
+  const byRegion = grouped(regionRows,"region","sales");
+  if (regionChart) {
+    regionChart.data.labels = Object.keys(byRegion);
+    regionChart.data.datasets[0].data = Object.values(byRegion);
+    regionChart.data.datasets[0].backgroundColor = Object.keys(byRegion).map((r,i)=>visualSelection.region && visualSelection.region!==r ? "#455368" : palette[i%palette.length]);
+    regionChart.update();
+  }
+  const categoryRows = filteredRecords("category");
+  const byCategory = grouped(categoryRows,"category","profit");
+  if (categoryChart) {
+    categoryChart.data.labels = Object.keys(byCategory);
+    categoryChart.data.datasets[0].data = Object.values(byCategory);
+    categoryChart.data.datasets[0].backgroundColor = Object.keys(byCategory).map((c,i)=>visualSelection.category && visualSelection.category!==c ? "#455368" : palette[i%palette.length]);
+    categoryChart.update();
+  }
   const table = el("ordersTable"); table.innerHTML = "";
   rows.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,12).forEach(r=>{
     const tr = document.createElement("tr");
@@ -89,6 +137,10 @@ function updateDashboard() {
   el("rowCount").textContent = `${rows.length} matching rows · showing ${Math.min(rows.length,12)}`;
 }
 ["yearFilter","regionFilter","categoryFilter"].forEach(id=>el(id).addEventListener("change",updateDashboard));
-el("resetFilters").addEventListener("click",()=>{["yearFilter","regionFilter","categoryFilter"].forEach(id=>el(id).value="all");updateDashboard();});
+el("resetFilters").addEventListener("click",()=>{
+  ["yearFilter","regionFilter","categoryFilter"].forEach(id=>el(id).value="all");
+  visualSelection = { month: null, region: null, category: null };
+  updateDashboard();
+});
 createCharts();
 updateDashboard();
