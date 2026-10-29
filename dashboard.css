@@ -7,3 +7,14 @@
 .table-card{margin-top:12px;background:#111a29;border:1px solid #263449;border-radius:7px;padding:14px}.table-card .chart-head{margin-bottom:8px}.table-scroll{overflow-x:auto;max-height:280px;overflow-y:auto}table{border-collapse:collapse;width:100%;font-size:.7rem;white-space:nowrap}th{text-align:left;color:#9baac0;font:500 .61rem 'DM Mono',monospace;letter-spacing:.04em;position:sticky;top:0;background:#111a29;z-index:1}th,td{padding:9px 10px;border-bottom:1px solid rgba(177,197,224,.09)}td{color:#d5dfed}tbody tr:hover{background:rgba(100,230,208,.045)}
 .notes-section{padding:45px 0 10px}.notes-section h2{font-size:clamp(1.5rem,2.3vw,2.1rem);letter-spacing:-.04em;margin:0 0 18px}.architecture{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:9px;align-items:center}.architecture>div{padding:14px;border:1px solid var(--line);border-radius:7px;background:var(--panel);min-width:0}.architecture small,.architecture strong{display:block}.architecture small{font:500 .57rem 'DM Mono',monospace;color:var(--cyan);margin-bottom:7px}.architecture strong{font-size:.78rem}.architecture p{font-size:.65rem;color:var(--muted);margin:5px 0 0}.architecture>b{color:var(--cyan)}.note-text{color:var(--muted);font-size:.73rem;max-width:950px;margin-top:14px}.sql-notes pre{white-space:pre-wrap;background:#050a12;border:1px solid var(--line);border-radius:8px;padding:18px;color:var(--cyan);overflow-x:auto;font:500 .76rem/1.8 'DM Mono',monospace}.sql-notes code{font:inherit}
 @media(min-width:1350px){.chart-wrap,.chart-wide .chart-wrap{height:245px}}@media(max-width:1050px){.chart-grid{grid-template-columns:1fr 1fr}.chart-wide{grid-column:span 2}.chart-wrap,.chart-wide .chart-wrap{height:230px}.architecture{grid-template-columns:1fr 1fr}.architecture>b{display:none}}@media(max-width:700px){.dash-main{padding:24px 4vw 45px}.dash-heading{align-items:flex-start;flex-direction:column}.dash-heading .btn{align-self:flex-start}.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.kpi-card{padding:12px}.chart-grid{grid-template-columns:1fr}.chart-wide{grid-column:auto}.chart-wrap,.chart-wide .chart-wrap{height:235px}.filters label{min-width:100%;width:100%}.filters select{width:100%}.reset-btn{width:100%;justify-content:center}.architecture{grid-template-columns:1fr}.table-card,.chart-card{padding:12px}}
+.reset-btn {
+  color: #64e6d0 !important;
+  background: #101827 !important;
+  border: 1px solid #2b3a50 !important;
+}
+
+.reset-btn:hover {
+  background: #1b2a3d !important;
+  color: #ffffff !important;
+  border-color: #64e6d0 !important;
+}
