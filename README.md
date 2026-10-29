@@ -1,21 +1,14 @@
-# Kavya Interactive Data Portfolio
+# Kavya Data Portfolio
+
+GitHub Pages portfolio organized into separate skill areas: Power BI projects, SQL, Data Engineering, Data Lake & ETL, Tableau, and a standalone Advanced DAX reference.
 
 ## Files
 - `index.html` — portfolio homepage
-- `sales-dashboard.html` — interactive Sales Analytics dashboard
-- `style.css`, `dashboard.css` — styling
-- `sales-dashboard.js` — browser-side filters, KPI calculations and chart updates
+- `power-bi.html` — Power BI project list (each project opens separately)
+- `sales-dashboard.html` + `sales-dashboard.js` + `dashboard.css` — interactive sample sales dashboard
+- `advanced-dax.html` — standalone advanced DAX reference, not embedded in a project page
+- `sql.html`, `data-engineering.html`, `data-lake-etl.html`, `tableau.html` — separate skill pages
+- `powerbi-executive.html`, `powerbi-customer.html`, `powerbi-finance.html`, `powerbi-operations.html` — separate project blueprint pages
 
-## Publish to GitHub Pages
-1. Download and extract this ZIP.
-2. In your GitHub repository `Kavya_Protfolio`, upload/replace the files at the repository root. Keep the repository's existing resume PDF and any assets you still need.
-3. Commit the changes to the branch configured for GitHub Pages.
-4. Open `https://kavyadatasquad.github.io/Kavya_Protfolio/` and click **Open interactive dashboard**.
-
-The dashboard uses an illustrative, deterministic dataset embedded in JavaScript. Chart.js is loaded from a CDN, so charts require internet access. The dashboard's data filtering and KPI calculations run in the browser; there is no live SQL database or scheduled Python pipeline behind this static GitHub Pages demo.
-
-## Before publishing
-- Check the public email and LinkedIn links.
-- Verify all certification names and dates.
-- Add your resume PDF at the root if you want to keep the resume link.
-- Do not include confidential employer/customer data.
+## Important
+The sales dashboard uses illustrative sample data in the browser. It is not connected to a live database or Power BI engine. DAX examples are reference snippets and do not execute on GitHub Pages. Power BI projects 02–05 are clearly labeled blueprints until you build them with public/sample data and add evidence of your own work.

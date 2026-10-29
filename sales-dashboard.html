@@ -10,7 +10,7 @@
 <body class="dashboard-page">
   <header class="site-header">
     <a class="brand" href="index.html">KAVYA<span>DATA</span></a>
-    <nav><a href="index.html#projects">Projects</a><a href="#dax-measures">DAX measures</a><a href="#engineering-notes">Engineering notes</a><a href="#sql-notes">SQL notes</a></nav>
+    <nav><a href="index.html#projects">Projects</a><a href="power-bi.html">Power BI</a><a href="advanced-dax.html">Advanced DAX</a><a href="sql.html">SQL</a></nav>
   </header>
   <main class="dash-main">
     <div class="dash-heading">
@@ -43,42 +43,6 @@
 
     <section class="table-card"><div class="chart-head"><div><h2>Order Details &amp; Drill-Through</h2><p>Sample transaction records matching the selected filters</p></div><span id="rowCount" class="tag">0 rows</span></div><div class="table-scroll"><table><thead><tr><th>Order date</th><th>Region</th><th>Category</th><th>Product</th><th>Sales</th><th>Profit</th></tr></thead><tbody id="ordersTable"></tbody></table></div></section>
 
-    <section id="engineering-notes" class="notes-section"><p class="eyebrow">NEXT PROJECT BLUEPRINT</p><h2>Data Engineering: pipeline to warehouse</h2><div class="architecture"><div><small>01 · INGEST</small><strong>CSV / API</strong><p>Read source data</p></div><b>→</b><div><small>02 · TRANSFORM</small><strong>Python / SQL</strong><p>Clean, validate, standardise</p></div><b>→</b><div><small>03 · STORE</small><strong>Lake / Warehouse</strong><p>Curated analytical tables</p></div><b>→</b><div><small>04 · SERVE</small><strong>BI Dashboard</strong><p>Metrics and insights</p></div></div><p class="note-text">This section documents a design pattern; the static GitHub Pages site does not run a scheduled backend pipeline. A real scheduled ETL workflow needs a runtime such as GitHub Actions, a cloud data platform, or another backend service.</p></section>
-
-    <section id="dax-measures" class="notes-section dax-section">
-      <p class="eyebrow">POWER BI · DAX REFERENCE</p>
-      <h2>DAX Measures &amp; Business Insights</h2>
-      <p class="note-text">Example DAX formulas for a Power BI model. These are reference snippets; the GitHub Pages demo calculates equivalent sample KPIs in JavaScript and does not execute DAX.</p>
-      <div class="dax-grid">
-        <article class="dax-card"><div class="dax-card-head"><h3>Total Sales</h3><span>Aggregation</span></div><pre><code>Total Sales =
-SUM(Orders[Sales])</code></pre><p>Calculates revenue across the current filter context.</p><button class="copy-dax" type="button" data-copy="Total Sales =
-SUM(Orders[Sales])">Copy DAX</button></article>
-        <article class="dax-card"><div class="dax-card-head"><h3>Total Orders</h3><span>Distinct count</span></div><pre><code>Total Orders =
-DISTINCTCOUNT(Orders[Order ID])</code></pre><p>Counts unique order IDs in the selected data.</p><button class="copy-dax" type="button" data-copy="Total Orders =
-DISTINCTCOUNT(Orders[Order ID])">Copy DAX</button></article>
-        <article class="dax-card"><div class="dax-card-head"><h3>Average Order Value</h3><span>DIVIDE</span></div><pre><code>Average Order Value =
-DIVIDE([Total Sales], [Total Orders], 0)</code></pre><p>Returns average sales per order and safely handles division by zero.</p><button class="copy-dax" type="button" data-copy="Average Order Value =
-DIVIDE([Total Sales], [Total Orders], 0)">Copy DAX</button></article>
-        <article class="dax-card"><div class="dax-card-head"><h3>Profit Margin %</h3><span>Ratio</span></div><pre><code>Profit Margin % =
-DIVIDE(SUM(Orders[Profit]), [Total Sales], 0)</code></pre><p>Measures profit as a percentage of sales.</p><button class="copy-dax" type="button" data-copy="Profit Margin % =
-DIVIDE(SUM(Orders[Profit]), [Total Sales], 0)">Copy DAX</button></article>
-        <article class="dax-card"><div class="dax-card-head"><h3>Sales YTD</h3><span>Time intelligence</span></div><pre><code>Sales YTD =
-TOTALYTD([Total Sales], 'Date'[Date])</code></pre><p>Calculates sales from the start of the year to the current date in context.</p><button class="copy-dax" type="button" data-copy="Sales YTD =
-TOTALYTD([Total Sales], 'Date'[Date])">Copy DAX</button></article>
-        <article class="dax-card"><div class="dax-card-head"><h3>Sales Rank</h3><span>RANKX</span></div><pre><code>Sales Rank =
-RANKX(ALL(Orders[Region]), [Total Sales], , DESC, DENSE)</code></pre><p>Ranks regions by sales, highest first.</p><button class="copy-dax" type="button" data-copy="Sales Rank =
-RANKX(ALL(Orders[Region]), [Total Sales], , DESC, DENSE)">Copy DAX</button></article>
-      </div>
-      <p id="copyDaxStatus" class="copy-dax-status" aria-live="polite"></p>
-    </section>
-
-    <section id="sql-notes" class="notes-section sql-notes"><p class="eyebrow">SQL PRACTICE</p><h2>Example: aggregate sales by region</h2><pre><code>SELECT
-    region,
-    SUM(sales_amount) AS total_sales,
-    SUM(profit_amount) AS total_profit
-FROM fact_sales
-GROUP BY region
-ORDER BY total_sales DESC;</code></pre><p class="note-text">This is an example query for a future warehouse model. The dashboard demo currently uses browser-side sample data, not a live SQL database.</p></section>
   </main>
   <footer><span>© 2026 Kavya · Interactive dashboard demo</span><span>Sample data · No confidential company data</span></footer>
   <script src="sales-dashboard.js"></script>
