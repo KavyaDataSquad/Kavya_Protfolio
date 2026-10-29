@@ -199,3 +199,18 @@ el("resetFilters").addEventListener("click",()=>{
 });
 createCharts();
 updateDashboard();
+
+
+// Copy a DAX example to the clipboard when supported by the browser.
+document.querySelectorAll(".copy-dax").forEach(button => {
+  button.addEventListener("click", async () => {
+    const formula = button.getAttribute("data-copy") || "";
+    const status = el("copyDaxStatus");
+    try {
+      await navigator.clipboard.writeText(formula);
+      if (status) status.textContent = "DAX formula copied to clipboard.";
+    } catch (error) {
+      if (status) status.textContent = "Clipboard access is blocked by this browser. Select and copy the formula manually.";
+    }
+  });
+});
