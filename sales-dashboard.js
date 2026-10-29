@@ -70,9 +70,22 @@ function grouped(rows, key, valueKey) {
 function chartBaseOptions() {
   return {
     responsive:true, maintainAspectRatio:false,
+    // Nearest-point hit testing makes chart clicks easier to trigger.
+    interaction:{mode:"nearest", intersect:false},
     plugins:{legend:{labels:{color:"#a1aec2",usePointStyle:true,boxWidth:8,font:{family:"Manrope",size:9}}},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label || ctx.label}: ${money(ctx.parsed.y ?? ctx.parsed)}`}}},
     scales:{x:{ticks:{color:"#a1aec2",maxRotation:0,autoSkip:true,font:{size:9}},grid:{color:"rgba(177,197,224,.07)"}},y:{ticks:{color:"#a1aec2",callback:value=>value>=1000000?(value/1000000).toFixed(1)+"M":value>=1000?(value/1000).toFixed(0)+"k":value},grid:{color:"rgba(177,197,224,.09)"}}}
   };
+}
+function getClickedElement(event, chart, intersect = false) {
+  // Explicit hit testing is more reliable across Chart.js versions than
+  // relying on the default interaction mode.
+  const hits = chart.getElementsAtEventForMode(
+    event,
+    "nearest",
+    { intersect, axis: "xy" },
+    true
+  );
+  return hits && hits.length ? hits[0] : null;
 }
 function createCharts() {
   if (!window.Chart) {
@@ -80,9 +93,51 @@ function createCharts() {
     return;
   }
   const base = chartBaseOptions();
-  monthlyChart = new Chart(el("monthlyChart"), {type:"line",data:{labels:[],datasets:[{label:"Sales",data:[],borderColor:palette[0],backgroundColor:"rgba(100,230,208,.12)",fill:true,tension:.32,pointRadius:4,pointHoverRadius:7}]},options:{...base,scales:{...base.scales,y:{...base.scales.y,beginAtZero:true}},onClick:(event,elements,chart)=>{if(!elements.length)return;const idx=elements[0].index;const label=chart.data.labels[idx];const month=chart.$monthKeys?.[idx];if(month)chartClickSelection("month",month);}}});
-  regionChart = new Chart(el("regionChart"), {type:"bar",data:{labels:[],datasets:[{label:"Sales",data:[],backgroundColor:palette,borderRadius:5}]},options:{...base,indexAxis:"y",onClick:(event,elements,chart)=>{if(!elements.length)return;chartClickSelection("region",chart.data.labels[elements[0].index]);},plugins:{...base.plugins,legend:{display:false}},scales:{x:{...base.scales.y,beginAtZero:true},y:{...base.scales.x,grid:{display:false}}}}});
-  categoryChart = new Chart(el("categoryChart"), {type:"doughnut",data:{labels:[],datasets:[{label:"Profit",data:[],backgroundColor:palette,borderWidth:0,hoverOffset:7}]},options:{responsive:true,maintainAspectRatio:false,cutout:"68%",onClick:(event,elements,chart)=>{if(!elements.length)return;chartClickSelection("category",chart.data.labels[elements[0].index]);},plugins:{legend:{position:"bottom",labels:{color:"#a1aec2",usePointStyle:true,boxWidth:8,padding:16,font:{family:"Manrope",size:9}}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${money(ctx.parsed)}`}}}}});
+  monthlyChart = new Chart(el("monthlyChart"), {
+    type:"line",
+    data:{labels:[],datasets:[{label:"Sales",data:[],borderColor:palette[0],backgroundColor:"rgba(100,230,208,.12)",fill:true,tension:.32,pointRadius:5,pointHoverRadius:8,hitRadius:14,borderWidth:2}]},
+    options:{...base,scales:{...base.scales,y:{...base.scales.y,beginAtZero:true}},onClick:(event,elements,chart)=>{
+      const hit = getClickedElement(event, chart, false);
+      if (!hit) return;
+      const month = chart.$monthKeys?.[hit.index];
+      if (month) chartClickSelection("month", month);
+    }}
+  });
+  regionChart = new Chart(el("regionChart"), {
+    type:"bar",
+    data:{labels:[],datasets:[{label:"Sales",data:[],backgroundColor:palette,borderRadius:5,barPercentage:.72,categoryPercentage:.78}]},
+    options:{...base,indexAxis:"y",onClick:(event,elements,chart)=>{
+      const hit = getClickedElement(event, chart, false);
+      if (!hit) return;
+      const region = chart.data.labels[hit.index];
+      if (region) chartClickSelection("region", region);
+    },plugins:{...base.plugins,legend:{display:false}},scales:{x:{...base.scales.y,beginAtZero:true},y:{...base.scales.x,grid:{display:false}}}}
+  });
+  categoryChart = new Chart(el("categoryChart"), {
+    type:"doughnut",
+    data:{labels:[],datasets:[{label:"Profit",data:[],backgroundColor:palette,borderWidth:2,borderColor:"#111a29",hoverOffset:9}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:"68%",onClick:(event,elements,chart)=>{
+      const hit = getClickedElement(event, chart, true);
+      if (!hit) return;
+      const category = chart.data.labels[hit.index];
+      if (category) chartClickSelection("category", category);
+    },plugins:{legend:{position:"bottom",labels:{color:"#a1aec2",usePointStyle:true,boxWidth:8,padding:16,font:{family:"Manrope",size:9}}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${money(ctx.parsed)}`}}}}
+  });
+  // Keyboard-accessible fallback: charts can be focused and Enter/Space clears
+  // visual selections, while mouse/touch clicks select data points.
+  ["monthlyChart","regionChart","categoryChart"].forEach(id=>{
+    const canvas = el(id);
+    canvas.setAttribute("tabindex", "0");
+    canvas.setAttribute("role", "button");
+    canvas.setAttribute("aria-label", canvas.getAttribute("aria-label") + ". Click a data point to cross-filter; press Enter to clear chart selections.");
+    canvas.addEventListener("keydown", event=>{
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        visualSelection = { month:null, region:null, category:null };
+        updateDashboard();
+      }
+    });
+  });
 }
 function updateDashboard() {
   const rows = filteredRecords();
