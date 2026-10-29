@@ -1,14 +1,24 @@
-# Kavya Data Portfolio
+# Kavya Data Portfolio — Organized Pages
 
-GitHub Pages portfolio organized into separate skill areas: Power BI projects, SQL, Data Engineering, Data Lake & ETL, Tableau, and a standalone Advanced DAX reference.
+## Page structure
+- `index.html` — homepage with category cards only (no full project pages embedded).
+- `power-bi.html` — Power BI project directory.
+- `sales-dashboard.html` — standalone interactive Sales Analytics Dashboard.
+- `powerbi-executive.html` — standalone Executive KPI Overview project page.
+- `powerbi-customer.html` — standalone Customer & Segmentation Analysis project page.
+- `powerbi-finance.html` — standalone Finance & Profitability project page.
+- `powerbi-operations.html` — standalone Operations & SLA Monitoring project page.
+- `sql.html` — separate SQL page.
+- `data-engineering.html` — separate Data Engineering page.
+- `data-lake-etl.html` — separate Data Lake & ETL page.
+- `tableau.html` — separate Tableau page.
+- `advanced-dax.html` — separate Advanced DAX reference page.
 
-## Files
-- `index.html` — portfolio homepage
-- `power-bi.html` — Power BI project list (each project opens separately)
-- `sales-dashboard.html` + `sales-dashboard.js` + `dashboard.css` — interactive sample sales dashboard
-- `advanced-dax.html` — standalone advanced DAX reference, not embedded in a project page
-- `sql.html`, `data-engineering.html`, `data-lake-etl.html`, `tableau.html` — separate skill pages
-- `powerbi-executive.html`, `powerbi-customer.html`, `powerbi-finance.html`, `powerbi-operations.html` — separate project blueprint pages
+## Important GitHub Pages upload instructions
+1. Extract this ZIP on your computer.
+2. Open the extracted folder and select all files inside it.
+3. Upload those files to the **root of your existing GitHub repository**, not the ZIP itself and not an extra nested folder.
+4. Keep your existing `Images` folder, resume PDF, and any other assets that are not included here. Do not delete them.
+5. Commit changes, wait for GitHub Pages to publish, then open the homepage and press Ctrl+F5.
 
-## Important
-The sales dashboard uses illustrative sample data in the browser. It is not connected to a live database or Power BI engine. DAX examples are reference snippets and do not execute on GitHub Pages. Power BI projects 02–05 are clearly labeled blueprints until you build them with public/sample data and add evidence of your own work.
+The category cards link to separate HTML pages. Each Power BI project is also a separate HTML page. The executive, customer, finance, and operations pages are currently project blueprints; only label them completed projects after building them and adding your own results/screenshots. The dashboard uses illustrative demo data, not employer-confidential data.
