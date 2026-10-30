@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cricket Analytics | Performance Dashboard</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#17243a;--muted:#6b7890;--line:#e6ebf2;--navy:#101e35;--blue:#2764e7;--teal:#10a6a0;--orange:#f29b38;--red:#dc5b68}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink)}
+.top{background:var(--navy);color:white;padding:23px 34px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{font-size:12px;letter-spacing:2px;color:#a9bad4;font-weight:700}.top h1{margin:6px 0 0;font-size:25px}.top p{margin:5px 0 0;color:#b9c6d9;font-size:13px}
+.pill{border:1px solid #52617a;color:#dbe7f8;padding:8px 12px;border-radius:20px;font-size:11px;white-space:nowrap}
+.wrap{max-width:1440px;margin:auto;padding:25px 30px 38px}
+.toolbar{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin-bottom:18px}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700}
+select{background:white;border:1px solid var(--line);padding:10px 34px 10px 12px;border-radius:8px;color:var(--ink);min-width:150px;font-size:13px}
+.reset{padding:10px 15px;border:0;background:#e8efff;color:#2056c9;border-radius:8px;font-weight:700;cursor:pointer}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 3px 12px #182b4608}
+.kpi{padding:18px 20px}.kpi .label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:700}.kpi .value{font-size:28px;font-weight:750;margin-top:9px}.kpi .sub{font-size:11px;color:var(--muted);margin-top:4px}
+.grid{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;margin-bottom:16px}.chart{padding:18px 20px;min-height:300px}.chart h2,.tablecard h2{font-size:14px;margin:0 0 4px}.hint{font-size:11px;color:var(--muted);margin-bottom:14px}.bars{display:flex;align-items:end;gap:13px;height:190px;border-bottom:1px solid var(--line);padding:8px 4px 0}
+.barcol{height:100%;flex:1;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:6px;min-width:0}.bar{width:min(38px,75%);border-radius:6px 6px 0 0;background:linear-gradient(180deg,#4b83f4,#2764e7);position:relative;min-height:2px}.bar.teal{background:linear-gradient(180deg,#4cc9c1,#109d98)}.bar.orange{background:linear-gradient(180deg,#ffc16d,#e88a20)}
+.barval{font-size:10px;color:#53627a}.barlabel{font-size:10px;color:var(--muted);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%}
+.legend{display:flex;gap:15px;margin-top:12px;color:var(--muted);font-size:10px}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px}
+.tablecard{padding:18px 20px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:12px}th{text-align:left;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.7px;padding:11px 9px;border-bottom:1px solid var(--line)}td{padding:12px 9px;border-bottom:1px solid #eef1f6}tbody tr:hover{background:#f7f9fd}.teamtag{padding:4px 7px;background:#edf3ff;color:#2759bd;border-radius:20px;font-size:10px}
+.footer{color:#8490a3;font-size:10px;text-align:right;margin-top:12px}
+@media(max-width:850px){.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.top{padding:20px;align-items:flex-start;flex-direction:column}.wrap{padding:18px 14px}.chart{min-height:280px}}
+@media(max-width:460px){.kpis{grid-template-columns:1fr 1fr}.kpi .value{font-size:22px}.barlabel{font-size:8px}}
+</style></head><body>
+<header class="top"><div><div class="brand">KAVYA DATA SQUAD  /  SPORTS INTELLIGENCE</div><h1>Cricket Analytics Dashboard</h1><p>Player performance • Batting & bowling insights • Season comparison</p></div><div class="pill">PORTFOLIO DEMO · ILLUSTRATIVE DATA</div></header>
+<main class="wrap">
+<section class="toolbar">
+<div class="field"><label for="team">Team</label><select id="team"><option value="All">All teams</option></select></div>
+<div class="field"><label for="season">Season</label><select id="season"><option value="All">All seasons</option></select></div>
+<div class="field"><label for="venue">Venue</label><select id="venue"><option value="All">All venues</option></select></div>
+<button class="reset" id="reset">Reset filters</button>
+</section>
+<section class="kpis">
+<div class="card kpi"><div class="label">Total Runs</div><div class="value" id="runs">—</div><div class="sub">Across selected players</div></div>
+<div class="card kpi"><div class="label">Total Wickets</div><div class="value" id="wickets">—</div><div class="sub">Bowling contribution</div></div>
+<div class="card kpi"><div class="label">Players</div><div class="value" id="playerCount">—</div><div class="sub">Unique players in selection</div></div>
+<div class="card kpi"><div class="label">Avg. Strike Rate</div><div class="value" id="strike">—</div><div class="sub">Runs per 100 balls</div></div>
+</section>
+<section class="grid">
+<div class="card chart"><h2>Top run scorers</h2><div class="hint">Runs by player · updates with filters</div><div class="bars" id="runBars"></div><div class="legend"><span><i class="dot" style="background:#2764e7"></i>Batting runs</span></div></div>
+<div class="card chart"><h2>Bowling impact</h2><div class="hint">Wickets by player · updates with filters</div><div class="bars" id="wicketBars"></div><div class="legend"><span><i class="dot" style="background:#109d98"></i>Wickets</span></div></div>
+</section>
+<section class="grid">
+<div class="card chart"><h2>Strike rate comparison</h2><div class="hint">Batting strike rate by player</div><div class="bars" id="srBars"></div><div class="legend"><span><i class="dot" style="background:#e88a20"></i>Strike rate</span></div></div>
+<div class="card chart"><h2>Team contribution</h2><div class="hint">Total runs by team</div><div class="bars" id="teamBars"></div><div class="legend"><span><i class="dot" style="background:#2764e7"></i>Team runs</span></div></div>
+</section>
+<section class="card tablecard"><h2>Player performance detail</h2><div class="hint">Sorted by runs · select filters above to explore</div><div class="tablewrap"><table><thead><tr><th>Player</th><th>Team</th><th>Season</th><th>Matches</th><th>Runs</th><th>Average</th><th>Strike rate</th><th>Wickets</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+<div class="footer">Demo dataset for portfolio demonstration only · Not official match statistics · Last updated locally</div>
+</main>
+<script>
+const data=[{"player": "Aarav Sharma", "team": "India", "season": "2023", "venue": "Mumbai", "matches": 14, "runs": 720, "avg": 52.1, "sr": 148.2, "wickets": 2}, {"player": "Vihaan Rao", "team": "India", "season": "2024", "venue": "Chennai", "matches": 16, "runs": 810, "avg": 67.5, "sr": 139.4, "wickets": 0}, {"player": "Kabir Gill", "team": "India", "season": "2025", "venue": "Delhi", "matches": 15, "runs": 650, "avg": 46.4, "sr": 142.1, "wickets": 1}, {"player": "Noah Cummins", "team": "Australia", "season": "2023", "venue": "Sydney", "matches": 13, "runs": 180, "avg": 22.5, "sr": 118.4, "wickets": 18}, {"player": "Ethan Head", "team": "Australia", "season": "2024", "venue": "Melbourne", "matches": 15, "runs": 690, "avg": 49.3, "sr": 156.7, "wickets": 3}, {"player": "Oliver Root", "team": "England", "season": "2025", "venue": "London", "matches": 14, "runs": 740, "avg": 61.6, "sr": 128.8, "wickets": 4}, {"player": "Leo Stokes", "team": "England", "season": "2024", "venue": "Manchester", "matches": 12, "runs": 410, "avg": 37.2, "sr": 133.1, "wickets": 12}, {"player": "Mason Starc", "team": "Australia", "season": "2025", "venue": "Perth", "matches": 14, "runs": 220, "avg": 18.3, "sr": 110.0, "wickets": 36}];
+const ids=["team","season","venue"];
+function initFilters(){const vals={team:[...new Set(data.map(x=>x.team))],season:[...new Set(data.map(x=>x.season))].sort(),venue:[...new Set(data.map(x=>x.venue))]};
+ids.forEach(id=>{const el=document.getElementById(id);vals[id].forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v;el.appendChild(o)});el.addEventListener("change",render)});document.getElementById("reset").onclick=()=>{ids.forEach(id=>document.getElementById(id).value="All");render()}}
+function selected(){return data.filter(x=>ids.every(id=>document.getElementById(id).value==="All"||x[id]===document.getElementById(id).value))}
+function bars(elId,items,color){const el=document.getElementById(elId);el.innerHTML="";if(!items.length){el.innerHTML='<span style="color:#8490a3;font-size:12px">No data for selected filters</span>';return}
+const max=Math.max(...items.map(x=>x.value),1);items.forEach(x=>{const c=document.createElement("div");c.className="barcol";const v=document.createElement("div");v.className="barval";v.textContent=x.value;const b=document.createElement("div");b.className="bar "+color;b.style.height=(x.value/max*155)+"px";const l=document.createElement("div");l.className="barlabel";l.textContent=x.label;c.append(v,b,l);el.append(c)})}
+function render(){const d=selected(),sum=k=>d.reduce((a,x)=>a+x[k],0),avg=k=>d.length?d.reduce((a,x)=>a+x[k],0)/d.length:0;
+document.getElementById("runs").textContent=sum("runs").toLocaleString();document.getElementById("wickets").textContent=sum("wickets").toLocaleString();document.getElementById("playerCount").textContent=d.length;document.getElementById("strike").textContent=avg("sr").toFixed(1);
+const sorted=[...d].sort((a,b)=>b.runs-a.runs);bars("runBars",sorted.slice(0,7).map(x=>({label:x.player.split(" ")[0],value:x.runs})),"");
+bars("wicketBars",[...d].sort((a,b)=>b.wickets-a.wickets).slice(0,7).map(x=>({label:x.player.split(" ")[0],value:x.wickets})),"teal");
+bars("srBars",[...d].sort((a,b)=>b.sr-a.sr).slice(0,7).map(x=>({label:x.player.split(" ")[0],value:x.sr})),"orange");
+const teams={};d.forEach(x=>teams[x.team]=(teams[x.team]||0)+x.runs);bars("teamBars",Object.entries(teams).sort((a,b)=>b[1]-a[1]).map(([label,value])=>({label,value})),"");
+document.getElementById("rows").innerHTML=sorted.map(x=>`<tr><td><b>${x.player}</b></td><td><span class="teamtag">${x.team}</span></td><td>${x.season}</td><td>${x.matches}</td><td>${x.runs}</td><td>${x.avg.toFixed(1)}</td><td>${x.sr.toFixed(1)}</td><td>${x.wickets}</td></tr>`).join("")||'<tr><td colspan="8">No players match these filters.</td></tr>'}
+initFilters();render();
+</script></body></html>

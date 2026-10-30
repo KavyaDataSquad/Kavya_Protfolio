@@ -1,0 +1,1 @@
+CRICKET ANALYTICS DASHBOARD\nOpen Cricket_Analytics_Dashboard.html in a browser. Filters for Team, Season and Venue update KPI cards, charts and the player table. Dataset is illustrative and not live/official. PNG is a static portfolio preview. CSV can be imported into Power BI Desktop to build/save a PBIX. This package does not contain a native PBIX file.
