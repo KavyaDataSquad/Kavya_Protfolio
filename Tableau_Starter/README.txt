@@ -1,0 +1,1 @@
+Tableau starter datasets. Connect Tableau Desktop to player_performance.csv or city_climate_trends.csv. Build sheets using Player, Team, Season, Venue, Runs, StrikeRate, Wickets; or City, Month, AvgTemperatureC, RainfallMM, HumidityPct. Data is illustrative only.

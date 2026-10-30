@@ -1,0 +1,6 @@
+Total Runs = SUM(PlayerPerformance[Runs])
+Total Wickets = SUM(PlayerPerformance[Wickets])
+Player Count = DISTINCTCOUNT(PlayerPerformance[Player])
+Average Strike Rate = AVERAGE(PlayerPerformance[StrikeRate])
+Runs Rank = RANKX(ALLSELECTED(PlayerPerformance[Player]), [Total Runs], , DESC, DENSE)
+Runs YTD = TOTALYTD([Total Runs], 'Date'[Date])

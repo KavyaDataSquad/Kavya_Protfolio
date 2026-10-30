@@ -1,0 +1,1 @@
+Power BI import starter. In Power BI Desktop: Get Data > Text/CSV > player_performance.csv. Apply types, create a Date table, add Measures.dax measures, then build visuals. Save As .pbix from Power BI Desktop. Data is fictional portfolio demonstration data, not official statistics.

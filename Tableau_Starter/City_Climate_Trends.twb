@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<workbook original-version="18.1" source-build="2026.1.0" source-platform="win" version="18.1" xmlns:user="http://www.tableausoftware.com/xml/user">
+<preferences><preference name="ui.encoding.shelfیں" value="utf-8"/></preferences>
+<datasources>
+<datasource caption="City Climate Trends (CSV)" inline="true" name="federated.0">
+<connection class="textscan" filename="city_climate_trends.csv" />
+<column datatype="string" name="[City]" role="dimension" type="nominal"/>
+<column datatype="string" name="[Team]" role="dimension" type="nominal"/>
+<column datatype="integer" name="[Season]" role="dimension" type="ordinal"/>
+<column datatype="string" name="[Venue]" role="dimension" type="nominal"/>
+<column datatype="integer" name="[RainfallMM]" role="measure" type="quantitative"/>
+<column datatype="real" name="[StrikeRate]" role="measure" type="quantitative"/>
+<column datatype="integer" name="[AvgTemperatureC]" role="measure" type="quantitative"/>
+</datasource></datasources>
+<worksheets>
+<worksheet name="Rainfall by City"><table><view><datasources><datasource name="federated.0"/></datasources><rows>[City]</rows><cols>[RainfallMM]</cols></view></table></worksheet>
+<worksheet name="Average Temperature"><table><view><datasources><datasource name="federated.0"/></datasources><rows>[City]</rows><cols>[AvgTemperatureC]</cols></view></table></worksheet>
+</worksheets><dashboards><dashboard name="City &amp; Climate Trends"><zones><zone h="100000" id="1" type="layout-basic" w="100000" x="0" y="0"/></zones></dashboard></dashboards>
+</workbook>
