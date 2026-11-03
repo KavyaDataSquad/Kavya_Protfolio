@@ -780,6 +780,24 @@
     #main-nav .n-hireme { display:none; }
   }
 
+
+  /* Keep Profile and Contact navbar buttons consistent in the green accent */
+  #main-nav .n-resume,
+  #main-nav .n-hireme {
+    background: var(--accent);
+    color: #071321 !important;
+    border: 1px solid var(--accent);
+    font-weight: 700;
+  }
+  #main-nav .n-resume:hover,
+  #main-nav .n-hireme:hover {
+    background: var(--accent);
+    color: #071321 !important;
+    border-color: var(--accent);
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
 </style></head><body>
 <nav id="main-nav"><div class="container ni"><a class="logo" href="#hero">DATA <span>WITH</span> DECISIONS<span class="name-accent">.</span></a><div class="nl" id="navLinks"><a class="nb" href="#hero">Home</a><a class="nb" href="#about">About</a><a class="nb" href="#skills">Skills</a><a class="nb" href="#projects">Projects</a><a class="nb" href="#experience">Experience</a><a class="nb" href="#certifications">Certifications</a><a class="nb" href="#contact">Contact</a></div><div class="nr"><button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">◐</button><a class="n-resume" href="#about">Profile</a><a class="n-hireme" href="#contact">Contact</a><button class="hamburger" id="hamburger" aria-label="Open menu">☰</button></div></div></nav>
 <section id="hero"><div class="container"><div class="hero-inner"><div class="hero"><div class="hero-badge">Data Analytics · BI · Data Engineering</div><h1>Hi, I'm <span class="name-accent">Lakshmi Kavya Attivapu</span></h1><p class="hero-role">Data Analyst · BI Developer · Data Engineer</p><p class="hero-desc">I turn data into clear insights and useful decisions. With experience across insurance and telecom domains, I work with SQL, Power BI, reporting and analytics, with a focus on analytics, BI development and data engineering.</p><div class="hero-btns"><a class="btn btn-primary" href="#projects">Explore Projects →</a><a class="btn btn-ghost" href="#contact">Let's Connect</a></div><div class="hero-socials"><a class="social-icon" href="https://github.com/KavyaDataSquad" target="_blank" rel="noopener" title="GitHub">GH</a></div></div></div></div></section>
