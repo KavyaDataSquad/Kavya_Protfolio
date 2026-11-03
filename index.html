@@ -795,8 +795,35 @@
   .contact-icons-only .contact-link-icon svg { width:25px; height:25px; }
   .social-icon.icon-svg { font-size:0; }
 
+
+  /* Navbar restored; keep the brand and Profile/Contact actions in the site's green accent. */
+  #main-nav .nb { color: var(--accent) !important; }
+  #main-nav .n-resume, #main-nav .n-hireme {
+    background: var(--accent);
+    color: #071321 !important;
+    border: 1px solid var(--accent);
+    font-weight: 700;
+  }
 </style></head><body>
-<a class="logo" href="#hero">DATAWITHDECISIONS</a>
+<nav id="main-nav" aria-label="Main navigation">
+  <div class="ni">
+    <a class="nb" href="#hero">DATAWITHDECISIONS</a>
+    <div class="nl" id="navLinks">
+      <a href="#hero">Home</a>
+      <a href="#about">Profile</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#certifications">Certifications</a>
+    </div>
+    <div class="nr">
+      <button id="themeToggle" type="button" aria-label="Toggle light and dark theme">◐</button>
+      <a class="n-resume" href="#about"><span>Profile</span></a>
+      <a class="n-hireme" href="#contact">Contact</a>
+      <button id="hamburger" type="button" aria-label="Open navigation menu">☰</button>
+    </div>
+  </div>
+</nav>
 <section id="hero"><div class="container"><div class="hero-inner"><div class="hero"><div class="hero-badge">Data Analytics · BI · Data Engineering</div><h1>Hi, I'm <span class="name-accent">Lakshmi Kavya Attivapu</span></h1><p class="hero-role">Data Analyst · BI Developer · Data Engineer</p><p class="hero-desc">I turn data into clear insights and useful decisions. With experience across insurance and telecom domains, I work with SQL, Power BI, reporting and analytics, with a focus on analytics, BI development and data engineering.</p><div class="hero-btns"><a class="btn btn-primary" href="#projects">Explore Projects →</a><a class="btn btn-ghost" href="#contact">Let's Connect</a></div></div></div></div></section>
 <section id="about"><div class="container"><p class="section-label">Background</p><h2 class="section-title">About Me</h2><div class="divider"></div><div class="about-grid"><div class="about-text"><p>I'm a Data Analyst with experience working across the insurance and telecom domains. My 4.8+ year professional journey includes TCS client projects for Verizon and MetLife, followed by an internal transfer to MetLife, where I continue contributing to data and application-focused work.</p><p>My work has involved SQL, application enhancements, file-based processing, payment-file generation, data validation and reconciliation across business processes. I enjoy tracing data from source inputs through processing and output generation, and turning complex requirements into reliable business outcomes.</p><p>Alongside my professional experience, I build hands-on portfolio projects in Power BI, Tableau, Excel and SQL. I am also expanding into data engineering through structured learning and hands-on practice with Python, PySpark, Databricks, data warehousing and Microsoft Fabric.</p><p>My goal is to grow across Data Analytics, BI Development and Data Engineering roles, combining business understanding with strong technical foundations.</p></div><div><div class="about-stats"><div class="stat-card"><div class="stat-num">4.8+</div><div class="stat-label">Years of professional experience</div></div><div class="stat-card"><div class="stat-num">10</div><div class="stat-label">Portfolio projects</div></div><div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Core analytics platforms</div></div><div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Professional certifications</div></div></div></div></div></div></section>
 <section id="skills"><div class="container">
