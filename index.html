@@ -385,19 +385,6 @@
   @media (max-width: 640px) {
     .footer-inner { grid-template-columns: 1fr; }
   }
- 
-  /* ===== SCROLL TO TOP ===== */
-  #scrolltop {
-    position: fixed; bottom: 1.5rem; right: 1.5rem;
-    width: 42px; height: 42px; border-radius: 50%;
-    background: var(--accent); color: #fff; border: none;
-    font-size: 1.1rem; cursor: pointer; display: none; align-items: center; justify-content: center;
-    transition: opacity 0.2s, transform 0.2s;
-    box-shadow: 0 4px 16px rgba(79,142,247,0.35);
-  }
-  #scrolltop.visible { display: flex; }
-  #scrolltop:hover { transform: scale(1.1); }
- 
   /* ================================================================
      NAVBAR — single source of truth, no duplicates
   ================================================================ */
@@ -847,11 +834,11 @@
 <div class="learning-panel"><h3>Data Analytics + Data Engineering Profile</h3><p>Core professional work includes SQL development, data transformation, file-to-database integration, reconciliation logic, dashboard/report development and business data workflows. The portfolio projects demonstrate further hands-on work with Power BI, Tableau, Excel, Python, PySpark, Databricks, Spark SQL, Delta Lake, ETL/ELT patterns, data warehousing and Microsoft Fabric.</p></div>
 </div></section>
 <section id="certifications"><div class="container"><p class="section-label">Credentials</p><h2 class="section-title">Certifications</h2><div class="divider"></div><div class="certs-grid"><div class="cert-card"><div class="cert-icon">📊</div><div><div class="cert-name">Microsoft Certified: Power BI Data Analyst Associate</div><div class="cert-issuer">PL-300</div></div></div><div class="cert-card"><div class="cert-icon">☁️</div><div><div class="cert-name">Google Cloud Associate Cloud Engineer</div><div class="cert-issuer">Google Cloud</div></div></div><div class="cert-card"><div class="cert-icon">🗄️</div><div><div class="cert-name">Azure Database Certification</div><div class="cert-issuer">Microsoft Azure · exact credential title to be confirmed</div></div></div></div></div></section>
-<section id="contact"><div class="container"><p class="section-label">Get In Touch</p><h2 class="section-title">Contact</h2><div class="divider"></div><div class="contact-grid"><div class="contact-info"><p>I'm interested in opportunities across Data Analytics, BI Development and Data Engineering. Feel free to connect for collaboration or professional opportunities.</p><div class="contact-links"><a class="contact-link" href="https://github.com/KavyaDataSquad" target="_blank" rel="noopener"><span class="contact-link-icon">⌘</span>GitHub Profile</a></div></div><div class="contact-form-wrap"><p class="section-sub">Let's connect and talk data.</p><p class="contact-note">LinkedIn, email and resume details will be added in the final publishing update.</p></div></div></div></section>
-<footer><div class="container footer-inner"><span>© 2026 Data with Decisions · Lakshmi Kavya Attivapu</span><a href="#hero">Back to top ↑</a></div></footer><button id="scrolltop" class="scrolltop" aria-label="Scroll to top">↑</button>
+<section id="contact"><div class="container"><p class="section-label">Get In Touch</p><h2 class="section-title">Contact</h2><div class="divider"></div><div class="contact-grid"><div class="contact-info"><p>I'm interested in opportunities across Data Analytics, BI Development and Data Engineering. Feel free to connect for collaboration or professional opportunities.</p><div class="contact-links"><a class="contact-link" href="https://github.com/KavyaDataSquad" target="_blank" rel="noopener"><span class="contact-link-icon">GH</span>GitHub Profile</a><a class="contact-link" href="https://www.linkedin.com/in/be-positive-7142a4249" target="_blank" rel="noopener"><span class="contact-link-icon">in</span>LinkedIn Profile</a><a class="contact-link" href="mailto:lakshmikavya104@gmail.com"><span class="contact-link-icon">✉</span>lakshmikavya104@gmail.com</a><a class="contact-link" href="tel:+918074188268"><span class="contact-link-icon">☎</span>+91 80741 88268</a></div></div><div class="contact-form-wrap"><p class="section-sub">Let's connect and talk data.</p></div></div></div></section>
+<footer><div class="container footer-inner"><span>© 2026 Data with Decisions · Lakshmi Kavya Attivapu</span><a href="#hero">Back to top ↑</a></div></footer>
 <script>
 const toggle=document.getElementById('themeToggle');toggle?.addEventListener('click',()=>{const root=document.documentElement;root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';});
 const menu=document.getElementById('hamburger'),links=document.getElementById('navLinks');menu?.addEventListener('click',()=>{links.classList.toggle('mob-open');});links?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('mob-open')));
-const topBtn=document.getElementById('scrolltop');window.addEventListener('scroll',()=>{topBtn.classList.toggle('visible',window.scrollY>350)});topBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
 const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});document.querySelectorAll('section').forEach(s=>observer.observe(s));
 </script></body></html>
