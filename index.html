@@ -481,36 +481,7 @@
     flex-wrap: nowrap;
     gap: 10px;
     flex-shrink: 0;
-  }
- 
-  /* Theme toggle */
-  #main-nav #themeToggle {
-    background: none;
-    border: 1px solid rgba(255,255,255,0.12);
-    color: #9aa0b4;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.95rem;
-    transition: border-color 0.2s, color 0.2s, background 0.2s;
-    flex-shrink: 0;
-    padding: 0;
-  }
-  #main-nav #themeToggle:hover {
-    border-color: #4f8ef7;
-    color: #4f8ef7;
-    background: rgba(79,142,247,0.08);
-  }
-  [data-theme="light"] #main-nav #themeToggle {
-    border-color: rgba(0,0,0,0.15);
-    color: #4b5563;
-  }
- 
-  /* Resume button */
+  }/* Resume button */
   #main-nav .n-resume {
     display: inline-flex;
     align-items: center;
@@ -819,6 +790,9 @@
     #main-nav #hamburger { display: flex !important; }
   }
 
+
+/* Theme switch intentionally removed from the navbar */
+#main-nav #themeToggle { display: none !important; }
 </style></head><body>
 <nav id="main-nav" aria-label="Main navigation">
   <div class="ni">
